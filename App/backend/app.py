@@ -20,7 +20,7 @@ encoder = LabelEncoder()
 encoder.classes_ = np.load("encoder_classes2.npy", allow_pickle=True)
 
 # Load notes values corresponding to each chord
-with open("../chords_data.json", "r") as f:
+with open("./chords_data.json", "r") as f:
     chords_notes = [list(c.values())[0] for c in json.load(f)]
 
 
