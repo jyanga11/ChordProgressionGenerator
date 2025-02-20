@@ -1,0 +1,5 @@
+model_training/
+__pycache__/
+venv/
+*.pkl
+*.ipynb
