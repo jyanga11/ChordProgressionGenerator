@@ -18,7 +18,7 @@ function App() {
 
   // Gets a list of chords for the user to select
   const getAllChords = async () => {
-    const response = await fetch("http://127.0.0.1:5000/", {
+    const response = await fetch("http://127.0.0.1:5000/chords", {
       method : "GET",
       headers: {"Content-Type" : "application/json" },
     });
@@ -38,7 +38,7 @@ function App() {
       return;
     }
 
-    const response = await fetch("http://127.0.0.1:5000/generate", {
+    const response = await fetch("/generate", {
       method : "POST",
       headers : {"Content-Type" : "application/json" },
       body : JSON.stringify({ 'length': length,
@@ -56,7 +56,7 @@ function App() {
 
   const downloadMIDI = () => {
     if (midiURL) {
-      midiURL = `http://127.0.0.1:5000${midiURL}`;
+      midiURL = `${midiURL}`;
       const a = document.createElement('a');
       a.href = midiURL;
       a.download = "chord_progression.mid";

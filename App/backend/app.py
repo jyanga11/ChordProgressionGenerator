@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, send_from_directory
 import json
 import os
 from flask_cors import CORS
@@ -8,23 +8,20 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/build", static_url_path_="")
 CORS(app)
 
-
-# Load the trained LSTM model
 model = load_model("checkpoint-49.h5")
 
-# Load chord encoder
 encoder = LabelEncoder()
 encoder.classes_ = np.load("encoder_classes2.npy", allow_pickle=True)
 
 # Load notes values corresponding to each chord
-with open("./chords_data.json", "r") as f:
+with open("chords_data.json", "r") as f:
     chords_notes = [list(c.values())[0] for c in json.load(f)]
 
-
 sequence_length = 4
+
 
 def sample_with_temperature_and_multiplier(predictions, temperature, history, repetitiveness):
     """
@@ -51,7 +48,6 @@ def sample_with_temperature_and_multiplier(predictions, temperature, history, re
     probabilities /= np.sum(probabilities)
 
     return np.random.choice(len(probabilities), p=probabilities)
-
 
 def generate_chord_sequence(seed_sequence, num_chords=4, temperature=1.0, window_size=4, repetitiveness=2.0):
     """
@@ -81,10 +77,6 @@ def generate_chord_sequence(seed_sequence, num_chords=4, temperature=1.0, window
         generated_chords = np.append(generated_chords, next_chord)
     
     return generated_chords.astype(int)
-
-@app.route("/", methods=["OPTIONS", "GET"])
-def index():
-    return jsonify({"all_chords" : encoder.classes_.tolist()})
 
 @app.route("/generate", methods=["POST"])
 def generate():
@@ -118,18 +110,35 @@ def generate():
         s.append(c)
 
     # Save as MIDI file
-    midi_file_name = "static/chord_progression.mid"
-    os.makedirs("static", exist_ok=True)  # Ensure static folder exists
+    midi_file_name = os.path.join(app.root_path, "static", "chord_progression.mid")
+    os.makedirs(os.path.dirname(midi_file_name), exist_ok=True)
+
+    # Save as MIDI file
     s.write("midi", fp=midi_file_name)
+
     if os.path.exists(midi_file_name):
         print("File created")
     else:
         print("File creation failed.")
 
     return jsonify({
-        "chord_progression" : chords.tolist(),
+        "chord_progression": chords.tolist(),
         "midi_url": "/static/chord_progression.mid"
-        })
+    })
+
+@app.route("/chords", methods=["OPTIONS", "GET"])
+def chords():
+    return jsonify({"all_chords" : encoder.classes_.tolist()})
+
+@app.route("/")
+def index():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'index.html')
+
+# Catch-all route to serve React files (for React Router)
+@app.route("/<path:path>")
+def serve_static_files(path):
+    return send_from_directory(app.static_folder, path)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    if os.getenv("FLASK_ENV") != "production":
+        app.run(debug=True, port=5000)
