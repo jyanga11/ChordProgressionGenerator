@@ -1,4 +1,6 @@
-model_training/
+model_training/data/*
+model_training/model_checkpoints/*
+model_training/ChordProgressionGenerator.ipynb
 __pycache__/
 venv/
 *.pkl
