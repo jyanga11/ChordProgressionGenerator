@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://127.0.0.1:5000",
+  "homepage": "/",
   "dependencies": {
     "cra-template": "1.2.0",
     "framer-motion": "^12.4.1",

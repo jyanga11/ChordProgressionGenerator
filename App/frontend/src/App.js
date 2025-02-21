@@ -18,7 +18,7 @@ function App() {
 
   // Gets a list of chords for the user to select
   const getAllChords = async () => {
-    const response = await fetch("http://127.0.0.1:5000/chords", {
+    const response = await fetch("/chords", {
       method : "GET",
       headers: {"Content-Type" : "application/json" },
     });
@@ -56,9 +56,10 @@ function App() {
 
   const downloadMIDI = () => {
     if (midiURL) {
-      midiURL = `${midiURL}`;
+      const fullURL = `${midiURL}`;
+      console.log("Download: ", fullURL);
       const a = document.createElement('a');
-      a.href = midiURL;
+      a.href = fullURL;
       a.download = "chord_progression.mid";
       document.body.appendChild(a);
       a.click();
@@ -164,7 +165,6 @@ function App() {
             components={animatedComponents}
           />
         </div>
-
         <div  // Settings Sliders
           className="mt-8 space-y-6 w-full max-w-md"
           style={{display:'flex', margin: '0.8em', marginBottom:'2em', justifyContent: 'center'}}

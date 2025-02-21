@@ -4,5 +4,6 @@ model_training/model_checkpoints/*
 model_training/ChordProgressionGenerator.ipynb
 __pycache__/
 venv/
-*.pkl
 *.ipynb
+node_modules/
+.apt/

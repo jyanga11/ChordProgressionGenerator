@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 
-app = Flask(__name__, static_folder="../frontend/build", static_url_path_="")
+app = Flask(__name__, static_folder="build")
 CORS(app)
 
 model = load_model("checkpoint-49.h5")
@@ -117,7 +117,7 @@ def generate():
     s.write("midi", fp=midi_file_name)
 
     if os.path.exists(midi_file_name):
-        print("File created")
+        print("File created at ", midi_file_name)
     else:
         print("File creation failed.")
 
@@ -131,8 +131,8 @@ def chords():
     return jsonify({"all_chords" : encoder.classes_.tolist()})
 
 @app.route("/")
-def index():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'index.html')
+def serve():
+    return send_from_directory("build", "index.html")
 
 # Catch-all route to serve React files (for React Router)
 @app.route("/<path:path>")
