@@ -1,6 +1,6 @@
 # 🎶 Chord Generator: AI-Powered Chord Progressions
 
-![App Demo](assets/chord_generator_demo2.mov)
+![App Demo](assets/demo.gif)
 
 
 ## Overview
