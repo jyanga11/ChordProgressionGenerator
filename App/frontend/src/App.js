@@ -56,7 +56,7 @@ function App() {
 
   const downloadMIDI = () => {
     if (midiURL) {
-      const fullURL = `${midiURL}`;
+      const fullURL = `http://127.0.0.1:5000${midiURL}`;
       console.log("Download: ", fullURL);
       const a = document.createElement('a');
       a.href = fullURL;

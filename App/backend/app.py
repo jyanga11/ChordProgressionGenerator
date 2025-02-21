@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 
-app = Flask(__name__, static_folder="build")
+app = Flask(__name__, static_folder="static")
 CORS(app)
 
 model = load_model("checkpoint-49.h5")
