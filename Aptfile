@@ -1,2 +1,4 @@
 gfortran
 libatlas-base-dev
+libopenblas-dev
+liblapack-dev
