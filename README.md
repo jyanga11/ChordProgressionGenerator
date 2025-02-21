@@ -1,7 +1,9 @@
 # 🎶 Chord Generator: AI-Powered Chord Progressions
-
-![App Demo](assets/demo.gif)
-
+<br><br>
+<p align="center">
+  <img src="assets/demo.gif" />
+</p>
+<br><br>
 
 ## Overview
 The Chord Generator is an AI-powered tool that creates musical chord progressions based on user inputs. Using an LSTM-based model, the app generates unique and harmonically pleasing sequences, offering musicians a quick and intuitive way to experiment with new ideas. Whether you're a seasoned composer or a beginner, the Chord Generator helps spark creativity and simplify the music creation process.
